@@ -148,3 +148,53 @@ stylo(frequencies = culled.freqs, analysis.type = "PCR",
       gui = FALSE)
 dev.off()
 
+setwd("~/Slavic 4530 - Hacking Lit/corpus_files_ru")
+frank_v <- scan("anna karenina_ru_tolstoy.txt", 
+                what = "character",
+                sep = "\n"
+)
+frank_v
+frank_lower_v <- tolower(frank_v)
+frank_word_l <- strsplit(frank_lower_v, "\\W")
+frank_word_v <- unlist(frank_word_l)
+not_blanks_v <- which(frank_word_v != "")
+frank_word_v <- frank_word_v[not_blanks_v]
+frank_length_v <- length(frank_word_v)
+frank_freqs_t <- table(frank_word_v)
+sorted_frank_freqs_t <- sort(frank_freqs_t, decreasing = TRUE)
+sorted_frank_freqs_t[1:100]
+sorted_frank_rel_freqs_t <- 100*(sorted_frank_freqs_t/frank_length_v)
+plot(
+  sorted_frank_rel_freqs_t[1:100], type = "b",
+  xlab = "Top 50 Words in Anna Karenina Russian",
+  ylab = "Percentage of Full Text",
+  xaxt = "n"
+)
+axis(
+  1, 1:100,
+  labels = names(sorted_frank_rel_freqs_t [1:100])
+)
+n_time_v <- seq(from = 1, to = length(frank_word_v))
+life_v <- which(frank_word_v == "eyes")
+l_count_v <- rep(NA, times = length(n_time_v))
+l_count_v[life_v] <- 1
+plot(
+  l_count_v,
+  main = "Dispersion Plot of 'eyes' in Anna Karenina English",
+  xlab = "Novel Time",
+  ylab = "eyes",
+  type = "h",
+  ylim = c(0, 1), yaxt = 'n'
+)
+n_time_v <- seq(from = 1, to = length(frank_word_v))
+life_v <- which(frank_word_v == "глаза")
+l_count_v <- rep(NA, times = length(n_time_v))
+l_count_v[life_v] <- 1
+plot(
+  l_count_v,
+  main = "Dispersion Plot of 'глаза' in Anna Karenina Russian",
+  xlab = "Novel Time",
+  ylab = "глаза",
+  type = "h",
+  ylim = c(0, 1), yaxt = 'n'
+)
